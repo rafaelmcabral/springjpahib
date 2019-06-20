@@ -1,17 +1,14 @@
 package tasks.controller;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import tasks.dao.TaskDao;
-import tasks.dao.UsuarioDao;
 import tasks.modelo.Task;
 
 @Controller

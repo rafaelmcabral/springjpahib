@@ -15,15 +15,9 @@ import tasks.modelo.Usuario;
 @Repository
 public class UsuarioDao {
 	
-	private EntityManagerFactory factory;
+	@PersistenceContext
 	private EntityManager entityManager;
-	
-	@Autowired
-	public UsuarioDao(DataSource dataSource) {
-		factory = Persistence.createEntityManagerFactory("tasks");
-		entityManager = factory.createEntityManager();
-	}
-	
+		
 	public boolean existeUsuario(Usuario usuario) {
 		if (usuario == null) {
 			throw new IllegalArgumentException("Usuario não pode ser nulo");

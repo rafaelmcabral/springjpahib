@@ -4,32 +4,25 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.sql.DataSource;
+import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import tasks.modelo.Task;
 
 @Repository
 public class TaskDao {
 
-	private EntityManagerFactory factory;
+	//private EntityManagerFactory factory;
+	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Autowired
-	public TaskDao(DataSource dataSource) {
-		factory = Persistence.createEntityManagerFactory("tasks");
-		entityManager = factory.createEntityManager();
-	}
-	
+	@Transactional
 	public void inserir(Task task) {
-		entityManager.getTransaction().begin();
+		//entityManager.getTransaction().begin();
 		entityManager.persist(task);
-		//entityManager.flush();
-		entityManager.getTransaction().commit();
+		//entityManager.getTransaction().commit();
 		//entityManager.close();
 	}
 	
@@ -39,13 +32,15 @@ public class TaskDao {
 		return tasks;
 	}
 	
+	@Transactional
 	public void exclui(Task task) {
 		if (task.getId() == null) {
 			throw new IllegalStateException("Id da task não pode ser nula.");
 		}
-		entityManager.getTransaction().begin();
-		entityManager.remove(task);
-		entityManager.getTransaction().commit();
+		Task resultTask = entityManager.find(Task.class, task.getId());
+		//entityManager.getTransaction().begin();
+		entityManager.remove(resultTask);
+		//entityManager.getTransaction().commit();
 		//entityManager.close();
 	}
 	
@@ -55,13 +50,15 @@ public class TaskDao {
 		return resultTask;
 	}
 	
+	@Transactional
 	public void edita(Task task) {
-		entityManager.getTransaction().begin();
+		//entityManager.getTransaction().begin();
 		entityManager.merge(task);
-		entityManager.getTransaction().commit();
+		//entityManager.getTransaction().commit();
 		//entityManager.close();		
 	}
 	
+	@Transactional
 	public void finaliza(Long id) {
 		if (id == null) {
 			throw new IllegalStateException("Id da task não pode ser nula.");
